@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
+using suduku_find_answer;
+
 namespace ConsoleApp1
 {
     public class Suduku
     {
         public static void Write_txt(int[,] ans)
         {
-            File.sw.WriteLine(Count.count.ToString());
+            //File.sw.WriteLine(Count.count.ToString());
             for (int i = 0; i < 9; i++)
             {
 
@@ -117,18 +119,90 @@ namespace ConsoleApp1
     }
     class Program
     {
+        public static string Get_num()
+        {
+            string str;
+            str= Console.ReadLine();
+            if(str.Length==0) str = Get_num();
+            foreach (char i in str)
+                if (i >= '0' && i <= '9') continue;
+                else
+                {
+                    Console.Write("Wrong input! Please input correct interger!\n");
+                    str = Get_num();
+                    break;
+                }
+            return str;
+        }
         static void Main(string[] args)
         {
             System.Diagnostics.Stopwatch runtime = new System.Diagnostics.Stopwatch();
             runtime.Start();
-            int[] Line = new int[9];
-            Line[0] = 4;
-            char[] str = new char[5];
-            Count.maxn = Convert.ToInt32(Console.ReadLine());
-            Suduku.Dfs(1, Line);
-            runtime.Stop();
-            Console.WriteLine("{0}", runtime.Elapsed.TotalMilliseconds);
+            string str;
+            System.Console.WriteLine("parameter count = {0}", args.Length);
+
+            for (int i = 0; i < args.Length; i++)
+            {
+                System.Console.WriteLine("Arg[{0}] = [{1}]", i, args[i]);
+            }
+            if(args.Length>0)
+            {
+                Console.ReadLine();
+                if (String.Compare(args[0], "-c") == 0)
+                {
+                    str = args[1];
+                    foreach (char i in str)
+                        if (i >= '0' && i <= '9') continue;
+                        else
+                        {
+                            Console.Write("Wrong input! Please input correct interger!\n");
+                            str = Get_num();
+                            break;
+                        }
+                    int[] Line = new int[9];
+                    Line[0] = 4;
+
+                    Count.maxn = Convert.ToInt32(str);
+                    Suduku.Dfs(1, Line);
+                }
+
+                else if (String.Compare(args[0], "-s") == 0)
+                {
+                    str = args[1];
+                    Console.WriteLine("hihi");
+                    suduku_find_answer.suduku_find_answer.Get_read(str);
+                }
+            }
+            else
+            {
+                int temp = Console.Read();
+                if(temp=='0')
+                {
+                    str = Console.ReadLine();
+                    foreach (char i in str)
+                        if (i >= '0' && i <= '9') continue;
+                        else
+                        {
+                            Console.Write("Wrong input! Please input correct interger!\n");
+                            str = Get_num();
+                            break;
+                        }
+                    int[] Line = new int[9];
+                    Line[0] = 4;
+
+                    Count.maxn = Convert.ToInt32(str);
+                    Suduku.Dfs(1, Line);
+                }
+                else
+                {
+                    str = "out_put.txt";
+                    Console.WriteLine("hihi");
+                    suduku_find_answer.suduku_find_answer.Get_read(str);
+                }
+                
+            }
             Console.ReadKey();
         }
+        
     }
 }
